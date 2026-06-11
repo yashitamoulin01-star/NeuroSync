@@ -1,0 +1,58 @@
+{
+  "exported_at": "2026-06-02T00:54:24Z",
+  "total_samples": 74288,
+  "splits": {
+    "train": 59432,
+    "val": 7428,
+    "test": 7428
+  },
+  "with_text": 74288,
+  "with_features": 74288,
+  "feature_dim": 44,
+  "note": "sklearn arrays are 44-dim face+audio stats; for fusion 428-dim embeddings use DatasetBuilder",
+  "sklearn_Y_columns": [
+    "confidence_cls",
+    "stress_cls",
+    "hesitation_cls",
+    "eye_cls",
+    "comm_cls"
+  ],
+  "label_schema": {
+    "confidence_cls": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "stress_cls": [
+      "calm",
+      "moderate",
+      "high"
+    ],
+    "hesitation_cls": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "eye_cls": [
+      "stable",
+      "nervous",
+      "avoidant"
+    ],
+    "comm_cls": [
+      "strong",
+      "clear",
+      "hesitant",
+      "weak"
+    ]
+  },
+  "deberta_outputs": [
+    "D:\\MBD\\data\\exports\\deberta\\train.jsonl",
+    "D:\\MBD\\data\\exports\\deberta\\val.jsonl",
+    "D:\\MBD\\data\\exports\\deberta\\test.jsonl"
+  ],
+  "sklearn_outputs": [
+    "D:\\MBD\\data\\exports\\sklearn\\X_train.npy",
+    "D:\\MBD\\data\\exports\\sklearn\\X_val.npy",
+    "D:\\MBD\\data\\exports\\sklearn\\X_test.npy"
+  ]
+}

@@ -1,0 +1,92 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.pyo
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ML / Model weights (large files)
+*.pt
+*.pth
+*.onnx
+*.bin
+*.safetensors
+models/weights/
+models/checkpoints/
+
+# Data (raw/large datasets - keep structure, ignore content)
+data/raw/
+data/processed/sessions/
+data/processed/*.npy
+data/processed/*.npz
+data/embeddings/sessions/
+data/embeddings/*.npy
+data/embeddings/*.pkl
+data/labeled/sessions/
+data/exports/deberta/
+data/exports/sklearn/
+data/exports/fusion/
+data/.validation_cache.json
+
+# Audio/Video uploads (runtime artifacts)
+uploads/
+*.wav
+*.mp3
+*.mp4
+*.webm
+*.avi
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite3
+
+# Archives
+archive/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+*.spec
+
+# OS
+desktop.ini
