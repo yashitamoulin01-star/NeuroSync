@@ -80,6 +80,12 @@ logs/
 # Archives
 archive/
 
+# Tool internals
+.claude/
+
+# Temp files
+requirements_temp.txt
+
 # Test cache
 .pytest_cache/
 .coverage
