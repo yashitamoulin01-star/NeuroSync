@@ -1,6 +1,6 @@
 'use client'
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react'
+import { motion, useMotionValue, useAnimationFrame, useTransform } from 'framer-motion'
 
 interface ShinyTextProps {
   text: string
@@ -38,7 +38,7 @@ export default function ShinyText({
   const dur   = speed * 1000
   const delMs = delay * 1000
 
-  useAnimationFrame(time => {
+  useAnimationFrame((time: number) => {
     if (disabled || isPaused) { lastTimeRef.current = null; return }
     if (lastTimeRef.current === null) { lastTimeRef.current = time; return }
     elapsedRef.current += time - lastTimeRef.current
@@ -65,7 +65,7 @@ export default function ShinyText({
     progress.set(0)
   }, [direction, progress])
 
-  const backgroundPosition = useTransform(progress, p => `${150 - p * 2}% center`)
+  const backgroundPosition = useTransform(progress, (p: number) => `${150 - p * 2}% center`)
 
   const handleMouseEnter = useCallback(() => { if (pauseOnHover) setIsPaused(true)  }, [pauseOnHover])
   const handleMouseLeave = useCallback(() => { if (pauseOnHover) setIsPaused(false) }, [pauseOnHover])
