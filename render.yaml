@@ -1,0 +1,30 @@
+# Render Blueprint for the NeuroSync backend.
+# Deploy: push to GitHub → Render → New → Blueprint → pick this repo.
+# The Next.js frontend deploys separately on Vercel (point it at this service URL).
+services:
+  - type: web
+    name: neurosync-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    # torch + mediapipe + whisper need real memory; free/512MB will OOM.
+    plan: standard
+    disk:
+      name: neurosync-data
+      mountPath: /app/data      # SQLite (nuanceai.db) + uploads persist here
+      sizeGB: 1
+    envVars:
+      - key: DATASET_DIR
+        value: /app/data
+      - key: WHISPER_DEVICE
+        value: cpu
+      - key: INFERENCE_DEVICE
+        value: cpu
+      # Random, stable per service. Encrypts OAuth tokens at rest — do NOT change
+      # after connectors are connected or stored tokens become unreadable.
+      - key: CONNECTOR_ENCRYPTION_KEY
+        generateValue: true
+      # Set in the Render dashboard to your Vercel URL, as a JSON array, e.g.
+      #   ["https://your-app.vercel.app"]
+      - key: ALLOWED_ORIGINS
+        sync: false

@@ -51,7 +51,8 @@ class BehavioralNLPInference:
             # Import here to avoid hard dependency before training
             from ml.training.deberta_trainer import MultiTaskDeBERTa
 
-            device = "cuda" if torch.cuda.is_available() else "cpu"
+            from ml.device_util import resolve_device
+            device = resolve_device()
             model  = MultiTaskDeBERTa.from_pretrained(str(MODEL_DIR))
             model  = model.to(device)
             model.eval()
@@ -93,8 +94,21 @@ class BehavioralNLPInference:
             )
             enc = {k: v.to(self._device) for k, v in enc.items()}
 
-            with torch.no_grad():
-                logits = self._model(**enc)
+            try:
+                with torch.no_grad():
+                    logits = self._model(**enc)
+            except RuntimeError as oom:
+                # CUDA OOM (tiny GPU): fall back to CPU permanently and retry once.
+                if "out of memory" in str(oom).lower() and self._device != "cpu":
+                    logger.warning("DeBERTa CUDA OOM — falling back to CPU for the rest of the run")
+                    try: torch.cuda.empty_cache()
+                    except Exception: pass
+                    self._model = self._model.to("cpu"); self._device = "cpu"
+                    enc = {k: v.to("cpu") for k, v in enc.items()}
+                    with torch.no_grad():
+                        logits = self._model(**enc)
+                else:
+                    raise
 
             def _weighted_score(lg: "torch.Tensor", weights: list[float]) -> float:
                 probs = torch.softmax(lg[0], dim=-1).cpu().tolist()

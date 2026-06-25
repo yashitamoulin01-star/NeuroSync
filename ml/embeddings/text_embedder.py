@@ -38,7 +38,8 @@ class TextEmbedder:
             from ml.training.deberta_trainer import MultiTaskDeBERTa
             from transformers import AutoTokenizer
 
-            device = "cuda" if torch.cuda.is_available() else "cpu"
+            from ml.device_util import resolve_device
+            device = resolve_device()
             model  = MultiTaskDeBERTa.from_pretrained(str(model_dir))
             model  = model.to(device)
             model.eval()

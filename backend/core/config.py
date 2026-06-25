@@ -19,6 +19,10 @@ class Settings(BaseSettings):
     WHISPER_MODEL: str = "base"          # tiny | base | small | medium
     WHISPER_DEVICE: str = "cpu"
 
+    # DeBERTa / embedding inference device: cpu | cuda | auto.
+    # Defaults to CPU so low-VRAM GPUs never CUDA-OOM during a live session.
+    INFERENCE_DEVICE: str = "cpu"
+
     # MediaPipe
     FACE_DETECTION_CONFIDENCE: float = 0.7
     FACE_TRACKING_CONFIDENCE: float = 0.5
