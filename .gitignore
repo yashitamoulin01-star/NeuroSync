@@ -96,3 +96,22 @@ htmlcov/
 
 # OS
 desktop.ini
+
+# Node / Next.js (frontend)
+node_modules/
+.next/
+out/
+npm-debug.log*
+
+# Model artifacts (regenerable; large binaries kept out of git — use LFS if needed)
+*.pkl
+models/**/tokenizer.json
+models/**/*.model
+models/**/*.spm
+
+# Build / runtime artifacts
+*.tsbuildinfo
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/uploads/
