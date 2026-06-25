@@ -1,0 +1,404 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theme tokens (shadcn CSS-variable contract) ────────────────────────────
+   Values are HSL channels (no hsl() wrapper).
+   tailwind.config.js wraps them: hsl(var(--background)) etc.
+   Dark-first: these are the dark-mode values used at all times.
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --background:          240 10% 4%;     /* #09090b  */
+    --foreground:          240 5%  96%;    /* #f4f4f5  */
+    --card:                240 6%  7%;     /* #0e0e10  */
+    --card-foreground:     240 5%  96%;
+    --popover:             240 6%  7%;
+    --popover-foreground:  240 5%  96%;
+    --primary:             239 84% 67%;    /* #6366f1  */
+    --primary-foreground:  0   0%  100%;
+    --secondary:           240 4%  16%;    /* #27272a  */
+    --secondary-foreground:240 5%  96%;
+    --muted:               240 4%  12%;    /* #1c1c1f  */
+    --muted-foreground:    240 4%  46%;    /* #71717a  */
+    --accent:              240 4%  12%;
+    --accent-foreground:   240 5%  96%;
+    --destructive:         0   72% 51%;    /* #ef4444  */
+    --destructive-foreground: 0 0% 100%;
+    --border:              240 4%  16%;    /* #27272a  */
+    --input:               240 4%  16%;
+    --ring:                239 84% 67%;    /* #6366f1  */
+    --radius:              0.5rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    scroll-behavior: smooth;
+    @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    overflow-x: hidden;
+  }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+/* ─── Selection ─────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+  color: #f4f4f5;
+}
+
+/* ─── Focus ─────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Typography scale ──────────────────────────────────────────────────────── */
+/* Usage rules:
+   .display-2xl  — hero headline (landing page only)
+   .display-xl   — section headline on marketing pages
+   .display-lg   — page headline inside AppShell
+   .page-heading — h1 within AppShell pages (text-xl font-bold)
+   .section-heading — h2/h3 within page sections (text-base font-bold)
+   .label-xs     — section category labels above headings (always uppercase)
+*/
+.display-2xl {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.display-xl {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.display-lg {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+/* Section category label — use instead of raw text-2xs uppercase tracking-widest */
+.label-xs {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* AppShell page headline */
+.page-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+/* Within-page section heading */
+.section-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* ─── Metric numbers ─────────────────────────────────────────────────────────── */
+.metric-value {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* ─── Utility layers ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Screen-reader only — visually hidden but accessible */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Show on focus (for skip links) */
+  .sr-only-focusable:focus,
+  .sr-only-focusable:focus-within {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  .bg-grid-subtle {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .bg-radial-glow {
+    background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.08) 0%, transparent 65%);
+  }
+
+  .glass {
+    background: rgba(20, 20, 22, 0.8);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .glass-strong {
+    background: rgba(15, 15, 17, 0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #818cf8 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #fbbf24 0%, #f87171 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-glow-accent {
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.2), 0 4px 32px rgba(99,102,241,0.1);
+  }
+
+  .ring-accent {
+    box-shadow: 0 0 0 1px #6366f1;
+  }
+
+  .animate-delay-100 { animation-delay: 0.1s; }
+  .animate-delay-200 { animation-delay: 0.2s; }
+  .animate-delay-300 { animation-delay: 0.3s; }
+  .animate-delay-400 { animation-delay: 0.4s; }
+  .animate-delay-500 { animation-delay: 0.5s; }
+}
+
+/* ─── Recharts overrides ─────────────────────────────────────────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255,255,255,0.04) !important;
+}
+.recharts-tooltip-wrapper { z-index: 50; }
+.recharts-default-tooltip {
+  background: #141416 !important;
+  border: 1px solid #27272a !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+.recharts-tooltip-label { color: #a1a1aa !important; }
+.recharts-legend-item-text { color: #a1a1aa !important; font-size: 12px !important; }
+
+/* ─── Radix overrides ────────────────────────────────────────────────────────── */
+[data-radix-popper-content-wrapper] { z-index: 100 !important; }
+
+/* ─── Shimmer skeleton ───────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg,
+    rgba(28,28,32,0) 0%,
+    rgba(40,40,46,0.8) 40%,
+    rgba(40,40,46,0.8) 60%,
+    rgba(28,28,32,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+.skeleton {
+  background: #1c1c1f;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────────────────── */
+
+/* Breathe — used by SVG radar polygon on landing page */
+@keyframes breathe {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.03); }
+}
+
+/* Ping ring — used by sidebar backend status indicator */
+@keyframes pingRing {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+.ping-ring {
+  animation: pingRing 1.8s ease-out infinite;
+}
+
+/* Reduced motion ───────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton::after { animation: none !important; }
+  .bar-fill { animation: none !important; width: var(--target-width, 0%); }
+}
+
+/* ─── Page enter animation ───────────────────────────────────────────────────── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: pageEnter 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Scroll reveal ──────────────────────────────────────────────────────────── */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+}
+.reveal.visible {
+  animation: revealUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.reveal-delay-1 { animation-delay: 0.08s; }
+.reveal-delay-2 { animation-delay: 0.16s; }
+.reveal-delay-3 { animation-delay: 0.24s; }
+.reveal-delay-4 { animation-delay: 0.32s; }
+
+/* ─── Stagger children ───────────────────────────────────────────────────────── */
+@keyframes staggerIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.stagger-children > * {
+  animation: staggerIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+
+/* ─── Tab content fade ───────────────────────────────────────────────────────── */
+@keyframes tabFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-content { animation: tabFade 0.2s ease-out; }
+
+/* ─── Signal bar fill ────────────────────────────────────────────────────────── */
+@keyframes barFill {
+  from { width: 0%; }
+}
+.bar-fill { animation: barFill 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ─── Toast slide-in ─────────────────────────────────────────────────────────── */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(0.75rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.toast-enter { animation: toastIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ─── Demo banner pulse ──────────────────────────────────────────────────────── */
+@keyframes demoPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+.demo-pulse { animation: demoPulse 2s ease-in-out infinite; }
+
+/* ─── Card lift on hover ─────────────────────────────────────────────────────── */
+.card-hover {
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+
+/* ─── Skip to content ────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #6366f1;
+  color: white;
+  border-radius: 0 0 6px 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* ─── Print styles (report export) ──────────────────────────────────────────── */
+@media print {
+  body { background: white !important; color: black !important; }
+  .no-print { display: none !important; }
+  .print-page { page-break-after: always; }
+  h1, h2, h3 { color: #111827 !important; }
+  aside, nav, header { display: none !important; }
+  .report-print { max-width: 100% !important; padding: 0 !important; }
+  /* Ensure sidebar doesn't eat print space */
+  [aria-label="Main navigation"] { display: none !important; }
+}

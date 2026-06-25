@@ -1,0 +1,54 @@
+.true-focus-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .true-focus-container {
+    justify-content: center;
+  }
+}
+
+.true-focus-word {
+  position: relative;
+  cursor: default;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #8B94A7;
+  transition: color 0.4s ease, filter 0.4s ease;
+}
+
+.true-focus-word.active {
+  color: #FFFFFF;
+  filter: drop-shadow(0 0 6px rgba(92, 124, 255, 0.15));
+}
+
+.true-focus-word.inactive {
+  color: #8B94A7;
+  filter: blur(2px);
+}
+
+.focus-frame {
+  position: absolute;
+  inset: -4px -6px;
+  border: 1.5px solid rgba(92, 124, 255, 0.65);
+  border-radius: 0.6rem;
+  box-shadow: 0 0 8px rgba(92, 124, 255, 0.12), inset 0 0 8px rgba(92, 124, 255, 0.06);
+  pointer-events: none;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .true-focus-word {
+    transition: none;
+    filter: none !important;
+  }
+  .focus-frame {
+    transition: none;
+  }
+}
