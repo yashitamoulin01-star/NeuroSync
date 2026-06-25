@@ -14,6 +14,11 @@ services:
       mountPath: /app/data      # SQLite (nuanceai.db) + uploads persist here
       sizeGB: 1
     envVars:
+      # Skip pulling the ~712MB LFS model weights during build (saves LFS bandwidth
+      # quota). The app runs in rule-based fallback without them — fine for a demo.
+      # Remove this (and buy LFS bandwidth) to deploy the real DeBERTa model.
+      - key: GIT_LFS_SKIP_SMUDGE
+        value: "1"
       - key: DATASET_DIR
         value: /app/data
       - key: WHISPER_DEVICE

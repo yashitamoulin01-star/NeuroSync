@@ -56,10 +56,13 @@ Railway also works: New Project → Deploy from repo → it builds the `Dockerfi
 
 ## Notes & limitations
 
-- **Trained model weights** (`*.pt`, `*.pkl`) are gitignored, so they are **not** in
-  the image. The app runs in rule-based/fallback inference without them — fine for a
-  demo. To ship the real DeBERTa model, store weights via Git LFS or fetch them at
-  startup from object storage.
+- **Trained model weights** (`*.pt`, `*.pkl`) are stored in **Git LFS** (see
+  `.gitattributes`). To avoid burning GitHub's free LFS bandwidth (1 GB/month) on
+  every cloud build, `render.yaml` sets `GIT_LFS_SKIP_SMUDGE=1`, so the build pulls
+  only LFS pointers and the app runs in **rule-based fallback** — fine for a demo.
+  To deploy the **real DeBERTa model**: remove `GIT_LFS_SKIP_SMUDGE` (and expect to
+  need a paid LFS data pack), or host the weights in object storage / a GitHub
+  Release and fetch them at startup.
 - **Browser extension / desktop agent** are separate clients; they point at the
   backend URL via their own `config.js`. Update those before distributing.
 - **OAuth / ATS / calendar** are stubbed until you register provider apps and set
