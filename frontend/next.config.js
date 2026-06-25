@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    optimizePackageImports: ['lucide-react', 'recharts'],
+    // recharts is excluded: its barrel-optimization transform fails to resolve
+    // victory-vendor/d3-shape internals and breaks `next build`.
+    optimizePackageImports: ['lucide-react'],
   },
   async rewrites() {
     return [

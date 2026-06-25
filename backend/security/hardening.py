@@ -108,9 +108,11 @@ async def security_middleware(request: Request, call_next):
 
     response = await call_next(request)
 
-    # 5. Strip server identification
-    response.headers.pop("server",       None)
-    response.headers.pop("x-powered-by", None)
+    # 5. Strip server identification.
+    # Starlette's MutableHeaders has no .pop(); delete guarded by membership.
+    for _h in ("server", "x-powered-by"):
+        if _h in response.headers:
+            del response.headers[_h]
 
     return response
 
