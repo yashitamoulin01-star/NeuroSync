@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "NeuroSync Capture",
+  "version": "1.0.0",
+  "description": "Capture a meeting tab and stream it to NeuroSync for live behavioral analysis. Capture only — no AI runs in the browser.",
+  "minimum_chrome_version": "116",
+  "permissions": ["tabCapture", "activeTab", "offscreen", "storage"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://meet.google.com/*",
+    "https://*.zoom.us/*",
+    "https://teams.microsoft.com/*",
+    "https://*.webex.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html", "default_title": "NeuroSync Capture" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://meet.google.com/*",
+        "https://*.zoom.us/*",
+        "https://teams.microsoft.com/*",
+        "https://*.webex.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

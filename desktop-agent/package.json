@@ -1,0 +1,15 @@
+{
+  "name": "neurosync-desktop-agent",
+  "version": "1.0.0",
+  "description": "NeuroSync Desktop Agent — capture a selected application window + audio and stream it to NeuroSync for live behavioral analysis. OS capture APIs only; never injects into other processes.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "lint": "node --check main.js && node --check preload.js && node --check renderer.js"
+  },
+  "author": "NeuroSync",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.0.0"
+  }
+}

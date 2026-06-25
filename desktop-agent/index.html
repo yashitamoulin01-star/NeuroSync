@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; connect-src http://localhost:8000 ws://localhost:8000; style-src 'self' 'unsafe-inline';" />
+  <title>NeuroSync Desktop Agent</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; font: 13px system-ui, sans-serif; background: #0b0b14; color: #e4e4e7; padding: 16px; }
+    h1 { font-size: 15px; margin: 0 0 2px; display: flex; align-items: center; gap: 7px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #52525b; }
+    .dot.on { background: #34d399; }
+    .sub { font-size: 11px; color: #a1a1aa; margin: 0 0 14px; }
+    label { font-size: 11px; color: #a1a1aa; display: block; margin: 12px 0 5px; }
+    input { width: 100%; box-sizing: border-box; background: #18181b; color: #e4e4e7;
+            border: 1px solid #27272a; border-radius: 8px; padding: 8px 10px; }
+    .sources { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 260px;
+               overflow-y: auto; margin-top: 6px; }
+    .src { border: 1px solid #27272a; border-radius: 10px; padding: 6px; cursor: pointer; background: #131320; }
+    .src.sel { border-color: #6366f1; box-shadow: 0 0 0 1px #6366f1; }
+    .src img { width: 100%; border-radius: 6px; display: block; background: #000; aspect-ratio: 16/9; object-fit: cover; }
+    .src .nm { font-size: 10px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .badge { font-size: 9px; color: #818cf8; }
+    button { width: 100%; border: none; border-radius: 9px; padding: 11px; font-size: 13px;
+             font-weight: 600; cursor: pointer; margin-top: 14px; }
+    .start { background: #6366f1; color: #fff; }
+    .start:disabled { background: #27272a; color: #71717a; cursor: not-allowed; }
+    .stop { background: #3f1d1d; color: #fca5a5; border: 1px solid #7f1d1d; }
+    .status { font-size: 11px; color: #a1a1aa; margin-top: 10px; min-height: 14px; }
+    .refresh { background: none; border: 1px solid #27272a; color: #a1a1aa; width: auto;
+               padding: 5px 10px; font-size: 11px; margin: 0; float: right; }
+  </style>
+</head>
+<body>
+  <h1><span id="dot" class="dot"></span> NeuroSync Desktop Agent</h1>
+  <p class="sub">Capture a meeting window and stream it to NeuroSync. OS capture only — nothing is injected into other apps.</p>
+
+  <button id="refresh" class="refresh">Refresh</button>
+  <label>Choose a window or screen to analyze</label>
+  <div id="sources" class="sources"></div>
+
+  <label for="name">Candidate / session name</label>
+  <input id="name" type="text" placeholder="e.g. Senior Engineer, Final Round" />
+
+  <div id="previewWrap" style="display:none; margin-top:12px;">
+    <label>Live preview</label>
+    <video id="preview" autoplay muted playsinline
+           style="width:100%; border-radius:10px; background:#000; aspect-ratio:16/9; object-fit:contain;"></video>
+    <div id="health" class="status"></div>
+  </div>
+
+  <button id="start" class="start" disabled>Start Analysis</button>
+  <button id="stop" class="stop" style="display:none;">Stop Analysis</button>
+  <div id="status" class="status"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

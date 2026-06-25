@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    :root { color-scheme: dark; }
+    body { width: 280px; margin: 0; font: 13px system-ui, sans-serif;
+           background: #0b0b14; color: #e4e4e7; padding: 14px; }
+    h1 { font-size: 13px; margin: 0 0 2px; display: flex; align-items: center; gap: 6px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #52525b; }
+    .dot.on { background: #34d399; }
+    .sub { font-size: 11px; color: #a1a1aa; margin: 0 0 12px; }
+    .row { margin-bottom: 10px; }
+    label { font-size: 11px; color: #a1a1aa; display: block; margin-bottom: 4px; }
+    input { width: 100%; box-sizing: border-box; background: #18181b; color: #e4e4e7;
+            border: 1px solid #27272a; border-radius: 8px; padding: 7px 9px; font-size: 12px; }
+    button { width: 100%; border: none; border-radius: 8px; padding: 9px; font-size: 12px;
+             font-weight: 600; cursor: pointer; }
+    .start { background: #6366f1; color: white; }
+    .stop  { background: #3f1d1d; color: #fca5a5; border: 1px solid #7f1d1d; }
+    .start:disabled { background: #27272a; color: #71717a; cursor: not-allowed; }
+    .status { font-size: 11px; margin-top: 10px; color: #a1a1aa; min-height: 14px; }
+    .provider { font-size: 11px; color: #818cf8; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1><span id="dot" class="dot"></span> NeuroSync Capture</h1>
+  <p class="sub">Stream this meeting tab to NeuroSync for live behavioral analysis.</p>
+
+  <div class="row">
+    <label>Detected meeting</label>
+    <div id="provider" class="provider">Checking…</div>
+  </div>
+
+  <div class="row">
+    <label for="name">Candidate / session name</label>
+    <input id="name" type="text" placeholder="e.g. Senior Engineer, Final Round" />
+  </div>
+
+  <button id="start" class="start" disabled>Start Analysis</button>
+  <button id="stop" class="stop" style="display:none;">Stop Analysis</button>
+  <div id="status" class="status"></div>
+
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
