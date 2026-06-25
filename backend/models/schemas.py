@@ -1,7 +1,9 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from enum import Enum
 import time
+
+from backend.models.evidence import BehavioralEvidence, ModalityQuality, ScoreBreakdown
 
 
 class ModalityType(str, Enum):
@@ -94,11 +96,26 @@ class FusedAnalytics(BaseModel):
 
     insights: List[BehavioralInsight] = []
 
+    # Reasoning layer outputs — every score is now traceable
+    evidence:       List[BehavioralEvidence] = Field(default_factory=list)
+    score_breakdown: Optional[ScoreBreakdown] = None
+    data_quality:   Optional[ModalityQuality] = None
+
     # Running session stats
     session_duration: float = 0.0
     total_words_spoken: int = 0
     total_filler_words: int = 0
     avg_speaking_pace: float = 0.0
+
+    # Phase 3: temporal intelligence and explainability
+    behavioral_state:   Optional[str]            = None  # BehavioralState.value
+    behavioral_pattern: Optional[str]            = None  # BehavioralPattern.value
+    segment:            Optional[str]            = None  # interview segment
+    trends:             Optional[Dict[str, str]] = None  # dimension → Trend.value
+    conflict_count:     int                      = 0
+    calibration:        Optional[Dict[str, Any]] = None  # CalibrationResult.to_dict()
+    explanation:        Optional[Dict[str, Any]] = None  # FullExplanation — REST only
+    decision_trace:     Optional[Dict[str, Any]] = None  # DecisionTrace — REST only
 
 
 # ── WebSocket message envelope ────────────────────────────────────────────────

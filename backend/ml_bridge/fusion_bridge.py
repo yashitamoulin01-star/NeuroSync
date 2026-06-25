@@ -27,8 +27,17 @@ class FusionBridge:
     def push_nlp(self, metrics: NLPMetrics):
         self._sync.ingest_nlp(metrics)
 
-    def get_fused(self) -> FusedAnalytics:
-        return self._sync.fuse()
+    def get_fused(
+        self,
+        score_history:    list = None,
+        behavioral_state: str  = "warming_up",
+        window_index:     int  = 0,
+    ) -> FusedAnalytics:
+        return self._sync.fuse(
+            score_history    = score_history,
+            behavioral_state = behavioral_state,
+            window_index     = window_index,
+        )
 
     def reset(self, session_id: str = "default"):
         self._sync.reset(new_session_id=session_id)

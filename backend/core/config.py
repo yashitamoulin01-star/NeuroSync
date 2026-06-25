@@ -1,21 +1,19 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "MBA — Multimodal Behavioral Analytics"
-    APP_VERSION: str = "1.0.0"
+    APP_NAME: str = "NeuroSync AI"
+    APP_VERSION: str = "1.2.0-rc1"
     DEBUG: bool = False
 
     # Server
     HOST: str = "0.0.0.0"
     PORT: int = 8000
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000", "https://mba.vercel.app"]
+    ALLOWED_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:3001"]
 
     # Database
     DATABASE_URL: Optional[str] = None
-    SUPABASE_URL: Optional[str] = None
-    SUPABASE_KEY: Optional[str] = None
 
     # Whisper
     WHISPER_MODEL: str = "base"          # tiny | base | small | medium
@@ -42,9 +40,14 @@ class Settings(BaseSettings):
     DEBERTA_MODEL: str = "microsoft/deberta-v3-base"
     TRAINING_OUTPUT_DIR: str = "models"
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+    # Connector framework — symmetric key for encrypting OAuth tokens at rest.
+    # Override per deployment (env: CONNECTOR_ENCRYPTION_KEY). Never commit a real key.
+    CONNECTOR_ENCRYPTION_KEY: str = "neurosync-dev-connector-key-change-me"
+
+    # Upload analysis pipeline
+    MAX_UPLOAD_MB: int = 512
+
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 
 settings = Settings()
