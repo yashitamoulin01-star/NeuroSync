@@ -1,4 +1,4 @@
-# NeuroSync — Behavioral Intelligence Platform
+# NeuroSync: Behavioral Intelligence Platform
 
 Real-time multimodal behavioral analysis for structured interviews. Fuses voice, face, and language analysis into evidence-backed behavioral intelligence, updated every 500ms over WebSocket.
 
@@ -8,13 +8,13 @@ Real-time multimodal behavioral analysis for structured interviews. Fuses voice,
 
 NeuroSync processes three independent signal streams simultaneously during an interview or coaching session:
 
-- **Face** — MediaPipe Face Mesh: eye contact quality, blink cadence, head pose stability, facial tension
-- **Voice** — LibROSA + custom extractors: pitch variance, vocal energy, pause ratio, speech rate
-- **Language** — faster-Whisper transcription + DeBERTa v3 (LoRA fine-tuned): confidence markers, hesitation frequency, filler word rate, communication structure
+- **Face (MediaPipe Face Mesh):** Eye contact quality, blink cadence, head pose stability, and facial tension.
+- **Voice (LibROSA + custom extractors):** Pitch variance, vocal energy, pause ratio, and speech rate.
+- **Language (faster-Whisper transcription + DeBERTa v3 fine-tuned with LoRA):** Confidence markers, hesitation frequency, filler word rate, and communication structure.
 
-These streams are synchronized by a time-windowed fusion layer that produces five composite behavioral dimensions — **Confidence, Engagement, Communication, Consistency, Composure** — delivered to the dashboard in real time.
+These streams are synchronized by a time-windowed fusion layer that produces five composite behavioral dimensions: **Confidence, Engagement, Communication, Consistency, and Composure**, which are delivered to the dashboard in real time.
 
-After the session, a reasoning pipeline produces a structured behavioral report: evidence ranking, contradiction detection, session arc analysis, and recruiter decision support.
+After the session, a reasoning pipeline produces a structured behavioral report covering evidence ranking, contradiction detection, session arc analysis, and recruiter decision support.
 
 ---
 
@@ -52,10 +52,10 @@ After the session, a reasoning pipeline produces a structured behavioral report:
 ```
 
 **Intelligence layers (above inference):**
-- **ABME** — Adaptive Behavioral Memory Engine: EMA-based candidate profiles across sessions
-- **CBIP** — Continual Behavioral Intelligence Platform: cross-candidate validated knowledge, confidence-weighted patterns, coaching effectiveness ranking, org intelligence, OLS forecasting
+- **ABME (Adaptive Behavioral Memory Engine):** EMA-based candidate profiles across sessions.
+- **CBIP (Continual Behavioral Intelligence Platform):** Cross-candidate validated knowledge, confidence-weighted patterns, coaching effectiveness ranking, organizational intelligence, and OLS forecasting.
 
-Production models are **immutable**. ABME and CBIP operate entirely in the Behavioral Knowledge Layer — no model weights are modified at runtime.
+Production models are **immutable**. ABME and CBIP operate entirely in the Behavioral Knowledge Layer, meaning no model weights are modified at runtime.
 
 ---
 
@@ -64,11 +64,11 @@ Production models are **immutable**. ABME and CBIP operate entirely in the Behav
 | Layer | Technology |
 |---|---|
 | API | FastAPI 0.111 + WebSockets |
-| ML — NLP | DeBERTa v3-base, LoRA (r=16 α=32), PEFT, HuggingFace Transformers |
-| ML — Audio | faster-Whisper (CTranslate2), LibROSA, SciPy |
-| ML — Vision | MediaPipe Face Mesh, OpenCV |
+| ML (NLP) | DeBERTa v3-base, LoRA (r=16 α=32), PEFT, HuggingFace Transformers |
+| ML (Audio) | faster-Whisper (CTranslate2), LibROSA, SciPy |
+| ML (Vision) | MediaPipe Face Mesh, OpenCV |
 | Reasoning | Evidence Graph, Behavioral State Machine, OLS forecasting, Calibration Engine |
-| Database | SQLite (WAL mode) — 4 schemas: core, enterprise, behavioral memory, CBIP |
+| Database | SQLite (WAL mode) with 4 schemas: core, enterprise, behavioral memory, and CBIP |
 | Frontend | Next.js 14 App Router, TypeScript, TailwindCSS, Recharts, Framer Motion |
 | Auth | JWT-based enterprise authentication, RBAC (8 roles, 50+ permissions) |
 
@@ -175,20 +175,20 @@ GET  /api/health/detailed               Full component health check
 
 Every analytical conclusion passes through:
 
-1. **Evidence Extraction** — per-modality signal extraction with quality weights
-2. **Evidence Graph** — cross-modal consistency check
-3. **Contradiction Detection** — flagged when face, voice, and language conflict
-4. **Behavioral Reasoner** — asymptotic scoring model (approaches limits, never clamps)
-5. **Temporal Analysis** — session arc, trend detection, peak/trough identification
-6. **State Machine** — behavioral state transitions (settled, stressed, recovering, etc.)
-7. **Context Rules** — mode-specific adjustments (interview vs coaching vs presentation)
-8. **Confidence Calibration** — ECE-calibrated reliability tiers: insufficient / low / medium / high
-9. **Decision Trace** — every conclusion is reconstructable from its inputs
+1. **Evidence Extraction:** Per-modality signal extraction with quality weights
+2. **Evidence Graph:** Cross-modal consistency check
+3. **Contradiction Detection:** Flagged when face, voice, and language conflict
+4. **Behavioral Reasoner:** Asymptotic scoring model (approaches limits, never clamps)
+5. **Temporal Analysis:** Session arc, trend detection, and peak/trough identification
+6. **State Machine:** Behavioral state transitions (settled, stressed, recovering, etc.)
+7. **Context Rules:** Mode-specific adjustments (interview vs coaching vs presentation)
+8. **Confidence Calibration:** ECE-calibrated reliability tiers (insufficient, low, medium, high)
+9. **Decision Trace:** Every conclusion is reconstructable from its inputs
 
 ### Behavioral Memory (ABME)
 
 Per-candidate EMA-based profiles accumulate across sessions:
-- Confidence baseline, stress reactivity, communication style
+- Confidence baseline, stress reactivity, and communication style
 - Session-to-session delta tracking
 - Coaching delivery and outcome tracking
 
@@ -212,13 +212,13 @@ Six behavioral archetypes are tracked as confidence-weighted patterns. Organizat
 
 ## Enterprise
 
-- **Multi-tenancy** — organization isolation with per-org signal aggregation
-- **RBAC** — 8 roles, 50+ permissions (super_admin → viewer)
-- **Immutable audit log** — SHA-256 chained entries, append-only
-- **AI Governance** — mandatory disclosures, confidence thresholds, human review triggers
-- **GDPR compliance** — data retention policies, right-to-erasure endpoints
-- **API key management** — scoped programmatic access
-- **Feature flags** — per-tenant capability control
+- **Multi-tenancy:** Organization isolation with per-org signal aggregation
+- **RBAC:** 8 roles, 50+ permissions (super_admin to viewer)
+- **Immutable audit log:** SHA-256 chained entries, append-only
+- **AI Governance:** Mandatory disclosures, confidence thresholds, and human review triggers
+- **GDPR compliance:** Data retention policies and right-to-erasure endpoints
+- **API key management:** Scoped programmatic access
+- **Feature flags:** Per-tenant capability control
 
 ---
 
@@ -226,11 +226,11 @@ Six behavioral archetypes are tracked as confidence-weighted patterns. Organizat
 
 See `KNOWN_LIMITATIONS.md` for a full honest assessment. Key constraints:
 
-- SQLite is not suitable for horizontal multi-node scaling; PostgreSQL migration is partially modelled but not implemented
-- `ScriptProcessor` (Web Audio API, deprecated) is used for audio capture; AudioWorklet replacement is pending
-- WCAG 2.1 AA accessibility compliance is not yet met
-- No HTTPS enforcement in the application layer (requires reverse proxy)
-- Session-level analysis only; question-level segmentation is a planned future capability
+- SQLite is not suitable for horizontal multi-node scaling. A PostgreSQL migration is partially modelled but not implemented.
+- `ScriptProcessor` (Web Audio API, deprecated) is used for audio capture. An AudioWorklet replacement is pending.
+- WCAG 2.1 AA accessibility compliance is not yet met.
+- No HTTPS enforcement in the application layer (requires a reverse proxy).
+- Session-level analysis only. Question-level segmentation is a planned future capability.
 
 ---
 
@@ -276,13 +276,13 @@ MBD/
 ## Design Decisions
 
 **Why SQLite instead of PostgreSQL?**
-The platform uses SQLite with WAL mode for single-node deployments. All DB code uses stdlib `sqlite3` directly — no ORM. A future PostgreSQL migration is modelled through the `DATABASE_URL` configuration field.
+The platform uses SQLite with WAL mode for single-node deployments. All DB code uses stdlib `sqlite3` directly without an ORM. A future PostgreSQL migration is modelled through the `DATABASE_URL` configuration field.
 
 **Why no online learning?**
-Production models must be stable, auditable, and reproducible. NeuroSync separates the inference layer (immutable models) from the knowledge layer (CBIP). The knowledge layer accumulates validated observations; it never touches model weights. This makes the system's behavior predictable, its claims defensible, and its outputs trustworthy.
+Production models must be stable, auditable, and reproducible. NeuroSync separates the inference layer (immutable models) from the knowledge layer (CBIP). The knowledge layer accumulates validated observations and never touches model weights. This makes the system's behavior predictable, its claims defensible, and its outputs trustworthy.
 
 **Why evidence-based reasoning instead of a single classifier?**
-A single confidence score from one classifier cannot explain itself. The reasoning pipeline extracts evidence per modality, weights by quality, detects contradictions, tracks temporal evolution, and produces a calibrated confidence tier — making every conclusion traceable.
+A single confidence score from one classifier cannot explain itself. The reasoning pipeline extracts evidence per modality, weights by quality, detects contradictions, tracks temporal evolution, and produces a calibrated confidence tier, making every conclusion traceable.
 
 **Why WebSocket instead of polling?**
 Polling at 500ms intervals would generate a large number of redundant requests. WebSocket maintains a persistent connection and pushes only when new analytics are available, reducing server load and improving latency.
