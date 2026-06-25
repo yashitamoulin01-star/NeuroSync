@@ -1,0 +1,76 @@
+name: Golden Suite Regression
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "backend/ai/**"
+      - "backend/reasoning/**"
+      - "backend/services/**"
+      - "backend/core/**"
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  golden-regression:
+    name: "Golden Suite — PR Regression Gate"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run golden suite + stability sweep
+        id: golden
+        run: |
+          python -c "
+import json, sys
+from backend.ai.golden_tests.runner import run_golden_suite
+from backend.ai.evaluation.stability import stability_checker
+
+print('=== Golden Test Suite ===')
+report = run_golden_suite()
+d = report.to_dict()
+print(f'  {d[\"passed\"]}/{d[\"total\"]} passed  pass_rate={d[\"pass_rate\"]:.2%}')
+for f in d['failures']:
+    print(f'  FAIL: {f}')
+
+print()
+print('=== Stability Sweep ===')
+result = stability_checker.run_suite()
+summary = result['summary']
+print(f'  stable: {summary[\"stable\"]}/{summary[\"total\"]}  max_cv={summary[\"max_cv\"]:.4f}')
+if summary.get('unstable_scenarios'):
+    print(f'  UNSTABLE: {summary[\"unstable_scenarios\"]}')
+
+golden_ok   = d['pass_rate'] >= 0.95
+stable_ok   = summary['stable'] >= summary['total'] * 0.95
+overall_ok  = golden_ok and stable_ok
+print()
+print(f'golden_ok={golden_ok}  stable_ok={stable_ok}')
+sys.exit(0 if overall_ok else 1)
+"
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+      - name: Comment PR with results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const outcome = '${{ steps.golden.outcome }}';
+            const icon    = outcome === 'success' ? '✅' : '❌';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              body: `${icon} **Golden Suite** — ${outcome === 'success' ? 'all gates passed' : 'regression detected — check logs'}`
+            });

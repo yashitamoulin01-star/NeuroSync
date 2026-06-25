@@ -1,0 +1,200 @@
+{
+  "generated_at": "2026-06-16T14:49:02Z",
+  "targets_analysed": [
+    "confidence_cls",
+    "stress_cls",
+    "hesitation_cls",
+    "eye_cls",
+    "comm_cls"
+  ],
+  "deberta_targets": [
+    "confidence_cls",
+    "stress_cls",
+    "hesitation_cls",
+    "comm_cls"
+  ],
+  "excluded_targets": {
+    "eye_cls": "DEGENERATE \u2014 excluded from DeBERTa training"
+  },
+  "imbalance_summary": {
+    "confidence_cls": {
+      "imbalance_ratio": 2.2,
+      "severity": "MODERATE",
+      "majority_class": "medium",
+      "minority_class": "high",
+      "minority_count": 11649,
+      "minority_pct": 19.6,
+      "split_distributions": {
+        "train": {
+          "low": 21989,
+          "medium": 25794,
+          "high": 11649
+        },
+        "val": {
+          "low": 2711,
+          "medium": 3216,
+          "high": 1501
+        },
+        "test": {
+          "low": 2721,
+          "medium": 3247,
+          "high": 1460
+        }
+      },
+      "recommended_weights": {
+        "low": 0.9009,
+        "medium": 0.768,
+        "high": 1.7006
+      },
+      "recommendation": "Use weighted cross-entropy loss (weights provided)",
+      "train_in_deberta": true
+    },
+    "stress_cls": {
+      "imbalance_ratio": 2.5,
+      "severity": "MODERATE",
+      "majority_class": "moderate",
+      "minority_class": "high",
+      "minority_count": 12097,
+      "minority_pct": 20.35,
+      "split_distributions": {
+        "train": {
+          "calm": 16944,
+          "moderate": 30391,
+          "high": 12097
+        },
+        "val": {
+          "calm": 2082,
+          "moderate": 3815,
+          "high": 1531
+        },
+        "test": {
+          "calm": 2133,
+          "moderate": 3748,
+          "high": 1547
+        }
+      },
+      "recommended_weights": {
+        "calm": 1.1692,
+        "moderate": 0.6519,
+        "high": 1.6377
+      },
+      "recommendation": "Use weighted cross-entropy loss (weights provided)",
+      "train_in_deberta": true
+    },
+    "hesitation_cls": {
+      "imbalance_ratio": 1.5,
+      "severity": "LOW",
+      "majority_class": "low",
+      "minority_class": "high",
+      "minority_count": 15768,
+      "minority_pct": 26.53,
+      "split_distributions": {
+        "train": {
+          "low": 23163,
+          "medium": 20501,
+          "high": 15768
+        },
+        "val": {
+          "low": 2859,
+          "medium": 2548,
+          "high": 2021
+        },
+        "test": {
+          "low": 2853,
+          "medium": 2601,
+          "high": 1974
+        }
+      },
+      "recommended_weights": {
+        "low": 0.8553,
+        "medium": 0.9663,
+        "high": 1.2564
+      },
+      "recommendation": "Balanced \u2014 standard cross-entropy is sufficient; weighted loss still recommended",
+      "train_in_deberta": true
+    },
+    "eye_cls": {
+      "imbalance_ratio": 19807.3,
+      "severity": "DEGENERATE",
+      "majority_class": "stable",
+      "minority_class": "nervous",
+      "minority_count": 3,
+      "minority_pct": 0.01,
+      "split_distributions": {
+        "train": {
+          "stable": 59422,
+          "nervous": 3,
+          "avoidant": 7
+        },
+        "val": {
+          "stable": 7425,
+          "nervous": 1,
+          "avoidant": 2
+        },
+        "test": {
+          "stable": 7426,
+          "nervous": 1,
+          "avoidant": 1
+        }
+      },
+      "recommended_weights": {
+        "stable": 0.3334,
+        "nervous": 6603.5556,
+        "avoidant": 2830.0952
+      },
+      "recommendation": "EXCLUDE from DeBERTa training \u2014 label is effectively single-class",
+      "train_in_deberta": false
+    },
+    "comm_cls": {
+      "imbalance_ratio": 2.8,
+      "severity": "MODERATE",
+      "majority_class": "clear",
+      "minority_class": "weak",
+      "minority_count": 8564,
+      "minority_pct": 14.41,
+      "split_distributions": {
+        "train": {
+          "strong": 16397,
+          "clear": 23960,
+          "hesitant": 10511,
+          "weak": 8564
+        },
+        "val": {
+          "strong": 2002,
+          "clear": 2992,
+          "hesitant": 1349,
+          "weak": 1085
+        },
+        "test": {
+          "strong": 2041,
+          "clear": 2997,
+          "hesitant": 1306,
+          "weak": 1084
+        }
+      },
+      "recommended_weights": {
+        "strong": 0.9061,
+        "clear": 0.6201,
+        "hesitant": 1.4136,
+        "weak": 1.7349
+      },
+      "recommendation": "Use weighted cross-entropy loss (weights provided)",
+      "train_in_deberta": true
+    }
+  },
+  "charts_generated": true,
+  "chart_paths": [
+    "D:\\MBD\\reports\\charts\\confidence_cls_distribution.png",
+    "D:\\MBD\\reports\\charts\\stress_cls_distribution.png",
+    "D:\\MBD\\reports\\charts\\hesitation_cls_distribution.png",
+    "D:\\MBD\\reports\\charts\\eye_cls_distribution.png",
+    "D:\\MBD\\reports\\charts\\comm_cls_distribution.png"
+  ],
+  "recommendations": [
+    "Apply weighted cross-entropy for all 4 DeBERTa targets",
+    "eye_cls must be EXCLUDED from DeBERTa and fusion model training",
+    "comm_cls has the highest imbalance among valid targets (class 3 'weak' at 14.4%) \u2014 use highest weight",
+    "hesitation_cls is the most balanced target (worst ratio 1.5:1) \u2014 minimal weighting needed",
+    "All splits show consistent distributions \u2014 no split leakage detected"
+  ]
+}

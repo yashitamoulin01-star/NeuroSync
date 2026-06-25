@@ -1,0 +1,200 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, "feat/**", "fix/**"]
+  pull_request:
+    branches: [main, master]
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  # ── 1. Code Quality ──────────────────────────────────────────────────────────
+  quality:
+    name: "Code Quality"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install quality tools
+        run: pip install ruff mypy
+
+      - name: Lint (ruff)
+        run: ruff check backend/ --select=E,W,F,I --ignore=E501,E402
+
+      - name: Type check (mypy — non-blocking)
+        run: mypy backend/ --ignore-missing-imports --no-error-summary || true
+
+  # ── 2. Unit Tests ────────────────────────────────────────────────────────────
+  unit:
+    name: "Unit Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-asyncio pytest-cov
+
+      - name: Run unit tests
+        run: pytest tests/unit/ -x -q --tb=short --cov=backend --cov-report=xml
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+        continue-on-error: true
+
+  # ── 3. Integration Tests ─────────────────────────────────────────────────────
+  integration:
+    name: "Integration Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-asyncio httpx
+
+      - name: Run integration tests
+        run: pytest tests/integration/ -x -q --tb=short
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+  # ── 4. Contract Tests ────────────────────────────────────────────────────────
+  contracts:
+    name: "API Contract Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest pytest-asyncio pydantic
+
+      - name: Run contract tests
+        run: pytest tests/contracts/ -x -q --tb=short
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+  # ── 5. Golden Suite ──────────────────────────────────────────────────────────
+  golden:
+    name: "Golden Test Suite"
+    runs-on: ubuntu-latest
+    needs: [quality, unit]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run golden test suite
+        run: python -c "
+from backend.ai.golden_tests.runner import run_golden_suite
+report = run_golden_suite()
+d = report.to_dict()
+print(f'Golden Suite: {d[\"passed\"]}/{d[\"total\"]} passed  pass_rate={d[\"pass_rate\"]:.2%}')
+for f in d['failures']:
+    print(f'  FAIL: {f}')
+exit(0 if d['pass_rate'] >= 0.95 else 1)
+"
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+  # ── 6. Benchmark Regression ──────────────────────────────────────────────────
+  benchmark:
+    name: "Benchmark Regression"
+    runs-on: ubuntu-latest
+    needs: [golden]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run benchmark and check P95 threshold
+        run: python -c "
+from backend.benchmarks.pipeline_benchmark import run_quick_benchmark
+results = run_quick_benchmark()
+print(f'Total duration: {results[\"total_duration_ms\"]:.0f}ms')
+for r in results['results']:
+    print(f'  {r[\"name\"]}: P95={r[\"p95_ms\"]:.1f}ms')
+# Gate: overall P95 must be < 500ms
+worst = max(r['p95_ms'] for r in results['results'])
+exit(0 if worst < 500 else 1)
+"
+        env:
+          DATASET_DIR: /tmp/neurosync_test_data
+
+  # ── 7. Frontend ──────────────────────────────────────────────────────────────
+  frontend:
+    name: "Frontend — Lint, Type, Build"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+  # ── Final gate ───────────────────────────────────────────────────────────────
+  all-green:
+    name: "All CI gates passed"
+    runs-on: ubuntu-latest
+    needs: [quality, unit, integration, contracts, golden, benchmark, frontend]
+    steps:
+      - run: echo "All checks passed ✓"

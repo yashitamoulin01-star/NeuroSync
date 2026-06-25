@@ -1,0 +1,603 @@
+{
+  "generated_at": "2026-06-16T14:44:58Z",
+  "overall_status": "READY_TO_TRAIN",
+  "summary": {
+    "blockers": 0,
+    "warnings": 4,
+    "ready_items": 10
+  },
+  "blockers": [],
+  "warnings": [
+    "GPU_CUDA_UNAVAILABLE: Install NVIDIA driver + torch cu118 before training",
+    "FUSION_DATA_MISSING: fusion training arrays must be built from session embeddings before fusion model can train",
+    "EYE_CLS_DEGENERATE: imbalance 19807.3:1 \u2014 excluded from DeBERTa, excluded from fusion targets",
+    "SYNTHETIC_DATA_WARNING: Phase 4 classifiers show F1=1.0 for ['hesitation', 'eye_contact'] \u2014 data is synthetic, features encode labels directly; DeBERTa text model is the reliable independent signal"
+  ],
+  "ready_items": [
+    "deberta_train_split",
+    "sklearn_train_arrays",
+    "deberta_val_split",
+    "sklearn_val_arrays",
+    "deberta_test_split",
+    "sklearn_test_arrays",
+    "phase4_classifiers_trained",
+    "session_embeddings_428dim",
+    "session_labels",
+    "tokenizer_cached"
+  ],
+  "deberta_splits": {
+    "status": "READY",
+    "splits": {
+      "train": {
+        "status": "READY",
+        "n_records": 59432,
+        "label_distributions": {
+          "confidence_cls": {
+            "counts": {
+              "0": 21989,
+              "1": 25794,
+              "2": 11649
+            },
+            "percentages": {
+              "0": 37.0,
+              "1": 43.4,
+              "2": 19.6
+            },
+            "total": 59432,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.2,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 21989,
+              "medium": 25794,
+              "high": 11649
+            }
+          },
+          "stress_cls": {
+            "counts": {
+              "0": 16944,
+              "1": 30391,
+              "2": 12097
+            },
+            "percentages": {
+              "0": 28.51,
+              "1": 51.14,
+              "2": 20.35
+            },
+            "total": 59432,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.5,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "calm": 16944,
+              "moderate": 30391,
+              "high": 12097
+            }
+          },
+          "hesitation_cls": {
+            "counts": {
+              "0": 23163,
+              "1": 20501,
+              "2": 15768
+            },
+            "percentages": {
+              "0": 38.97,
+              "1": 34.49,
+              "2": 26.53
+            },
+            "total": 59432,
+            "majority_class": 0,
+            "minority_class": 2,
+            "imbalance_ratio": 1.5,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 23163,
+              "medium": 20501,
+              "high": 15768
+            }
+          },
+          "eye_cls": {
+            "counts": {
+              "0": 59422,
+              "1": 3,
+              "2": 7
+            },
+            "percentages": {
+              "0": 99.98,
+              "1": 0.01,
+              "2": 0.01
+            },
+            "total": 59432,
+            "majority_class": 0,
+            "minority_class": 1,
+            "imbalance_ratio": 19807.3,
+            "severe_imbalance": true,
+            "is_degenerate": true,
+            "named_counts": {
+              "stable": 59422,
+              "nervous": 3,
+              "avoidant": 7
+            }
+          },
+          "comm_cls": {
+            "counts": {
+              "0": 16397,
+              "1": 23960,
+              "2": 10511,
+              "3": 8564
+            },
+            "percentages": {
+              "0": 27.59,
+              "1": 40.31,
+              "2": 17.69,
+              "3": 14.41
+            },
+            "total": 59432,
+            "majority_class": 1,
+            "minority_class": 3,
+            "imbalance_ratio": 2.8,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "strong": 16397,
+              "clear": 23960,
+              "hesitant": 10511,
+              "weak": 8564
+            }
+          }
+        },
+        "text_stats": {
+          "min_words": 1,
+          "max_words": 66,
+          "avg_words": 14.53,
+          "p95_words": 29
+        }
+      },
+      "val": {
+        "status": "READY",
+        "n_records": 7428,
+        "label_distributions": {
+          "confidence_cls": {
+            "counts": {
+              "0": 2711,
+              "1": 3216,
+              "2": 1501
+            },
+            "percentages": {
+              "0": 36.5,
+              "1": 43.3,
+              "2": 20.21
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.1,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 2711,
+              "medium": 3216,
+              "high": 1501
+            }
+          },
+          "stress_cls": {
+            "counts": {
+              "0": 2082,
+              "1": 3815,
+              "2": 1531
+            },
+            "percentages": {
+              "0": 28.03,
+              "1": 51.36,
+              "2": 20.61
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.5,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "calm": 2082,
+              "moderate": 3815,
+              "high": 1531
+            }
+          },
+          "hesitation_cls": {
+            "counts": {
+              "0": 2859,
+              "1": 2548,
+              "2": 2021
+            },
+            "percentages": {
+              "0": 38.49,
+              "1": 34.3,
+              "2": 27.21
+            },
+            "total": 7428,
+            "majority_class": 0,
+            "minority_class": 2,
+            "imbalance_ratio": 1.4,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 2859,
+              "medium": 2548,
+              "high": 2021
+            }
+          },
+          "eye_cls": {
+            "counts": {
+              "0": 7425,
+              "1": 1,
+              "2": 2
+            },
+            "percentages": {
+              "0": 99.96,
+              "1": 0.01,
+              "2": 0.03
+            },
+            "total": 7428,
+            "majority_class": 0,
+            "minority_class": 1,
+            "imbalance_ratio": 7425.0,
+            "severe_imbalance": true,
+            "is_degenerate": true,
+            "named_counts": {
+              "stable": 7425,
+              "nervous": 1,
+              "avoidant": 2
+            }
+          },
+          "comm_cls": {
+            "counts": {
+              "0": 2002,
+              "1": 2992,
+              "2": 1349,
+              "3": 1085
+            },
+            "percentages": {
+              "0": 26.95,
+              "1": 40.28,
+              "2": 18.16,
+              "3": 14.61
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 3,
+            "imbalance_ratio": 2.8,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "strong": 2002,
+              "clear": 2992,
+              "hesitant": 1349,
+              "weak": 1085
+            }
+          }
+        },
+        "text_stats": {
+          "min_words": 1,
+          "max_words": 61,
+          "avg_words": 14.48,
+          "p95_words": 29
+        }
+      },
+      "test": {
+        "status": "READY",
+        "n_records": 7428,
+        "label_distributions": {
+          "confidence_cls": {
+            "counts": {
+              "0": 2721,
+              "1": 3247,
+              "2": 1460
+            },
+            "percentages": {
+              "0": 36.63,
+              "1": 43.71,
+              "2": 19.66
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.2,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 2721,
+              "medium": 3247,
+              "high": 1460
+            }
+          },
+          "stress_cls": {
+            "counts": {
+              "0": 2133,
+              "1": 3748,
+              "2": 1547
+            },
+            "percentages": {
+              "0": 28.72,
+              "1": 50.46,
+              "2": 20.83
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 2,
+            "imbalance_ratio": 2.4,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "calm": 2133,
+              "moderate": 3748,
+              "high": 1547
+            }
+          },
+          "hesitation_cls": {
+            "counts": {
+              "0": 2853,
+              "1": 2601,
+              "2": 1974
+            },
+            "percentages": {
+              "0": 38.41,
+              "1": 35.02,
+              "2": 26.58
+            },
+            "total": 7428,
+            "majority_class": 0,
+            "minority_class": 2,
+            "imbalance_ratio": 1.4,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "low": 2853,
+              "medium": 2601,
+              "high": 1974
+            }
+          },
+          "eye_cls": {
+            "counts": {
+              "0": 7426,
+              "1": 1,
+              "2": 1
+            },
+            "percentages": {
+              "0": 99.97,
+              "1": 0.01,
+              "2": 0.01
+            },
+            "total": 7428,
+            "majority_class": 0,
+            "minority_class": 2,
+            "imbalance_ratio": 7426.0,
+            "severe_imbalance": true,
+            "is_degenerate": true,
+            "named_counts": {
+              "stable": 7426,
+              "nervous": 1,
+              "avoidant": 1
+            }
+          },
+          "comm_cls": {
+            "counts": {
+              "0": 2041,
+              "1": 2997,
+              "2": 1306,
+              "3": 1084
+            },
+            "percentages": {
+              "0": 27.48,
+              "1": 40.35,
+              "2": 17.58,
+              "3": 14.59
+            },
+            "total": 7428,
+            "majority_class": 1,
+            "minority_class": 3,
+            "imbalance_ratio": 2.8,
+            "severe_imbalance": false,
+            "is_degenerate": false,
+            "named_counts": {
+              "strong": 2041,
+              "clear": 2997,
+              "hesitant": 1306,
+              "weak": 1084
+            }
+          }
+        },
+        "text_stats": {
+          "min_words": 1,
+          "max_words": 61,
+          "avg_words": 14.52,
+          "p95_words": 28
+        }
+      }
+    },
+    "total_records": 74288,
+    "split_ratio": "80/10/10",
+    "training_targets": [
+      "confidence_cls",
+      "stress_cls",
+      "hesitation_cls",
+      "comm_cls"
+    ],
+    "excluded_targets": {
+      "eye_cls": "degenerate (imbalance 19807.3:1, 100% class 0)"
+    }
+  },
+  "sklearn_arrays": {
+    "splits": {
+      "train": {
+        "status": "READY",
+        "X_shape": [
+          59432,
+          44
+        ],
+        "Y_shape": [
+          59432,
+          5
+        ],
+        "X_dtype": "float32",
+        "has_nan": false,
+        "has_inf": false,
+        "all_zero_rows": 0,
+        "feature_range": {
+          "min": 0.0,
+          "max": 279.3,
+          "mean": 46.1784
+        }
+      },
+      "val": {
+        "status": "READY",
+        "X_shape": [
+          7428,
+          44
+        ],
+        "Y_shape": [
+          7428,
+          5
+        ],
+        "X_dtype": "float32",
+        "has_nan": false,
+        "has_inf": false,
+        "all_zero_rows": 0,
+        "feature_range": {
+          "min": 0.0,
+          "max": 275.5,
+          "mean": 46.1368
+        }
+      },
+      "test": {
+        "status": "READY",
+        "X_shape": [
+          7428,
+          44
+        ],
+        "Y_shape": [
+          7428,
+          5
+        ],
+        "X_dtype": "float32",
+        "has_nan": false,
+        "has_inf": false,
+        "all_zero_rows": 0,
+        "feature_range": {
+          "min": 0.0,
+          "max": 276.2,
+          "mean": 46.1668
+        }
+      }
+    },
+    "feature_dim": 44,
+    "label_columns": [
+      "confidence_cls",
+      "stress_cls",
+      "hesitation_cls",
+      "eye_cls",
+      "comm_cls"
+    ]
+  },
+  "fusion_exports": {
+    "status": "EMPTY",
+    "session_embeddings_available": 74288,
+    "labeled_sessions": 74370,
+    "sessions_with_both": 74288,
+    "embedding_dims": {
+      "text": 384,
+      "audio": 28,
+      "face": 16,
+      "combined": 428
+    },
+    "fusion_model_input_dim": 428,
+    "fusion_model_output_targets": [
+      "confidence_cls",
+      "stress_cls",
+      "hesitation_cls",
+      "comm_cls"
+    ],
+    "build_required": true
+  },
+  "phase4_classifiers": {
+    "status": "TRAINED",
+    "trained_at": "2026-06-11T13:10:09Z",
+    "summary": {
+      "confidence": {
+        "best_model": "gradient_boosting",
+        "test_accuracy": 0.9786,
+        "test_macro_f1": 0.977,
+        "imbalance_ratio": 2.2,
+        "severe_imbalance": false
+      },
+      "stress": {
+        "best_model": "random_forest",
+        "test_accuracy": 0.9837,
+        "test_macro_f1": 0.9838,
+        "imbalance_ratio": 2.5,
+        "severe_imbalance": false
+      },
+      "hesitation": {
+        "best_model": "random_forest",
+        "test_accuracy": 1.0,
+        "test_macro_f1": 1.0,
+        "imbalance_ratio": 1.5,
+        "severe_imbalance": false
+      },
+      "eye_contact": {
+        "best_model": "random_forest",
+        "test_accuracy": 1.0,
+        "test_macro_f1": 1.0,
+        "imbalance_ratio": 19807.3,
+        "severe_imbalance": true
+      },
+      "communication_quality": {
+        "best_model": "random_forest",
+        "test_accuracy": 0.9996,
+        "test_macro_f1": 0.9997,
+        "imbalance_ratio": 2.8,
+        "severe_imbalance": false
+      }
+    }
+  },
+  "hardware": {
+    "gpu": {
+      "name": "NVIDIA MX130 (driver not installed)",
+      "vram_gb": 2.0,
+      "torch_build": "2.3.0+cpu",
+      "status": "CUDA_UNAVAILABLE",
+      "action": "Install NVIDIA driver, then: pip install torch==2.3.0+cu118 --index-url https://download.pytorch.org/whl/cu118"
+    },
+    "gpu_available": false,
+    "ram": {
+      "total_gb": 8.37,
+      "available_gb": 1.3
+    },
+    "vram_requirements": {
+      "deberta_lora_fp16_batch8": "~1.0 GB",
+      "deberta_lora_fp32_batch4": "~1.5 GB",
+      "deberta_full_fp32_batch8": "~4.5 GB (OOM on MX130)",
+      "fusion_mlp": "< 0.1 GB"
+    }
+  },
+  "training_duration_estimates": {
+    "mx130_gpu_fp16": {
+      "batch_size": 8,
+      "steps_per_epoch": 7429,
+      "total_steps_3epochs": 22287,
+      "estimated_hours_multitask": 1.5,
+      "note": "multi-task (4 heads, 1 model)"
+    },
+    "cpu_fallback": {
+      "batch_size": 4,
+      "steps_per_epoch": 14858,
+      "total_steps_3epochs": 44574,
+      "estimated_hours_multitask": 47.1,
+      "note": "multi-task (4 heads, 1 model)"
+    }
+  }
+}

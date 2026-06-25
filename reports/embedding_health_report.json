@@ -1,0 +1,98 @@
+{
+  "generated_at": "2026-06-16T16:20:36Z",
+  "overall_status": "ISSUES_FOUND",
+  "issues": [
+    "text: 48 sessions missing embedding"
+  ],
+  "total_sessions": 74288,
+  "sessions_with_all_modalities": 74240,
+  "combined_dim": 428,
+  "modalities": {
+    "text": {
+      "status": "ISSUES_FOUND",
+      "expected_dim": 384,
+      "observed_shapes": [
+        [
+          384
+        ]
+      ],
+      "coverage": 74240,
+      "coverage_pct": 99.94,
+      "missing_count": 48,
+      "nan_count": 0,
+      "inf_count": 0,
+      "all_zeros_count": 0,
+      "dim_mismatches": 0,
+      "model_ids_observed": [
+        "minilm_384"
+      ]
+    },
+    "audio": {
+      "status": "HEALTHY",
+      "expected_dim": 28,
+      "observed_shapes": [
+        [
+          28
+        ]
+      ],
+      "coverage": 74288,
+      "coverage_pct": 100.0,
+      "missing_count": 0,
+      "nan_count": 0,
+      "inf_count": 0,
+      "all_zeros_count": 0,
+      "dim_mismatches": 0,
+      "model_ids_observed": [
+        "statistical_v1"
+      ]
+    },
+    "face": {
+      "status": "HEALTHY",
+      "expected_dim": 16,
+      "observed_shapes": [
+        [
+          16
+        ]
+      ],
+      "coverage": 74288,
+      "coverage_pct": 100.0,
+      "missing_count": 0,
+      "nan_count": 0,
+      "inf_count": 0,
+      "all_zeros_count": 0,
+      "dim_mismatches": 0,
+      "model_ids_observed": [
+        "statistical_v1"
+      ]
+    }
+  },
+  "sample_vector_stats": {
+    "text": {
+      "sample_n": 200,
+      "mean_l2_norm": 1.0,
+      "std_l2_norm": 0.0,
+      "mean_abs": 0.040465,
+      "fraction_near_zero": 0.0078
+    },
+    "audio": {
+      "sample_n": 200,
+      "mean_l2_norm": 394.6873,
+      "std_l2_norm": 36.3055,
+      "mean_abs": 48.251854,
+      "fraction_near_zero": 0.0187
+    },
+    "face": {
+      "sample_n": 200,
+      "mean_l2_norm": 185.6296,
+      "std_l2_norm": 54.9885,
+      "mean_abs": 32.868282,
+      "fraction_near_zero": 0.0019
+    }
+  },
+  "embedding_model_summary": {
+    "text": "all-MiniLM-L6-v2 (sentence-transformers, 384-dim)",
+    "audio": "statistical_v1 \u2014 28-dim face+audio aggregated features",
+    "face": "statistical_v1 \u2014 16-dim face landmark features",
+    "note": "All embeddings are pre-DeBERTa (statistical). After Phase 5 training, text embeddings will upgrade to DeBERTa [CLS] 768-dim."
+  }
+}

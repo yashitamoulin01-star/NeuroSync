@@ -1,0 +1,397 @@
+{
+  "trained_at": "2026-06-17T10:02:22Z",
+  "base_model": "microsoft/deberta-v3-base",
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "num_epochs": 3,
+  "batch_size": 1,
+  "gradient_accumulation_steps": 8,
+  "effective_batch_size": 8,
+  "gradient_checkpointing": true,
+  "max_seq_length": 128,
+  "device": "cuda",
+  "fp16": true,
+  "n_train": 59432,
+  "n_val": 7428,
+  "n_test": 7428,
+  "targets": [
+    "confidence_cls",
+    "stress_cls",
+    "hesitation_cls",
+    "comm_cls"
+  ],
+  "best_val_macro_f1": 0.8257,
+  "best_step": 18000,
+  "training_history": [
+    {
+      "step": 500,
+      "epoch": 1,
+      "val_loss": 1.0667,
+      "val_avg_macro_f1": 0.3703,
+      "val_confidence_cls_f1": 0.3939,
+      "val_stress_cls_f1": 0.4076,
+      "val_hesitation_cls_f1": 0.3854,
+      "val_comm_cls_f1": 0.2946
+    },
+    {
+      "step": 1000,
+      "epoch": 1,
+      "val_loss": 0.7614,
+      "val_avg_macro_f1": 0.6663,
+      "val_confidence_cls_f1": 0.7405,
+      "val_stress_cls_f1": 0.7433,
+      "val_hesitation_cls_f1": 0.6951,
+      "val_comm_cls_f1": 0.4863
+    },
+    {
+      "step": 1500,
+      "epoch": 1,
+      "val_loss": 0.6579,
+      "val_avg_macro_f1": 0.7375,
+      "val_confidence_cls_f1": 0.8018,
+      "val_stress_cls_f1": 0.7826,
+      "val_hesitation_cls_f1": 0.7538,
+      "val_comm_cls_f1": 0.6121
+    },
+    {
+      "step": 2000,
+      "epoch": 1,
+      "val_loss": 0.6341,
+      "val_avg_macro_f1": 0.7544,
+      "val_confidence_cls_f1": 0.8146,
+      "val_stress_cls_f1": 0.8051,
+      "val_hesitation_cls_f1": 0.7709,
+      "val_comm_cls_f1": 0.6269
+    },
+    {
+      "step": 4000,
+      "epoch": 1,
+      "val_loss": 0.5692,
+      "val_avg_macro_f1": 0.7768,
+      "val_confidence_cls_f1": 0.8342,
+      "val_stress_cls_f1": 0.8222,
+      "val_hesitation_cls_f1": 0.7878,
+      "val_comm_cls_f1": 0.6631
+    },
+    {
+      "step": 6000,
+      "epoch": 1,
+      "val_loss": 0.5332,
+      "val_avg_macro_f1": 0.7998,
+      "val_confidence_cls_f1": 0.8457,
+      "val_stress_cls_f1": 0.8354,
+      "val_hesitation_cls_f1": 0.8058,
+      "val_comm_cls_f1": 0.7122
+    },
+    {
+      "step": 7429,
+      "epoch": 1,
+      "val_loss": 0.5097,
+      "val_avg_macro_f1": 0.8045,
+      "val_confidence_cls_f1": 0.8445,
+      "val_stress_cls_f1": 0.8374,
+      "val_hesitation_cls_f1": 0.8041,
+      "val_comm_cls_f1": 0.7318
+    },
+    {
+      "step": 8000,
+      "epoch": 2,
+      "val_loss": 0.4999,
+      "val_avg_macro_f1": 0.8088,
+      "val_confidence_cls_f1": 0.85,
+      "val_stress_cls_f1": 0.8412,
+      "val_hesitation_cls_f1": 0.807,
+      "val_comm_cls_f1": 0.737
+    },
+    {
+      "step": 10000,
+      "epoch": 2,
+      "val_loss": 0.4979,
+      "val_avg_macro_f1": 0.8149,
+      "val_confidence_cls_f1": 0.8515,
+      "val_stress_cls_f1": 0.8415,
+      "val_hesitation_cls_f1": 0.8104,
+      "val_comm_cls_f1": 0.7563
+    },
+    {
+      "step": 12000,
+      "epoch": 2,
+      "val_loss": 0.4732,
+      "val_avg_macro_f1": 0.8069,
+      "val_confidence_cls_f1": 0.8471,
+      "val_stress_cls_f1": 0.8298,
+      "val_hesitation_cls_f1": 0.8031,
+      "val_comm_cls_f1": 0.7476
+    },
+    {
+      "step": 14000,
+      "epoch": 2,
+      "val_loss": 0.4817,
+      "val_avg_macro_f1": 0.8201,
+      "val_confidence_cls_f1": 0.857,
+      "val_stress_cls_f1": 0.8491,
+      "val_hesitation_cls_f1": 0.8124,
+      "val_comm_cls_f1": 0.762
+    },
+    {
+      "step": 14858,
+      "epoch": 2,
+      "val_loss": 0.4574,
+      "val_avg_macro_f1": 0.824,
+      "val_confidence_cls_f1": 0.8613,
+      "val_stress_cls_f1": 0.8503,
+      "val_hesitation_cls_f1": 0.8149,
+      "val_comm_cls_f1": 0.7694
+    },
+    {
+      "step": 16000,
+      "epoch": 3,
+      "val_loss": 0.4857,
+      "val_avg_macro_f1": 0.8083,
+      "val_confidence_cls_f1": 0.8437,
+      "val_stress_cls_f1": 0.8357,
+      "val_hesitation_cls_f1": 0.7966,
+      "val_comm_cls_f1": 0.7573
+    },
+    {
+      "step": 18000,
+      "epoch": 3,
+      "val_loss": 0.4666,
+      "val_avg_macro_f1": 0.8257,
+      "val_confidence_cls_f1": 0.8615,
+      "val_stress_cls_f1": 0.8491,
+      "val_hesitation_cls_f1": 0.8164,
+      "val_comm_cls_f1": 0.7757
+    },
+    {
+      "step": 20000,
+      "epoch": 3,
+      "val_loss": 0.4635,
+      "val_avg_macro_f1": 0.8247,
+      "val_confidence_cls_f1": 0.8606,
+      "val_stress_cls_f1": 0.8515,
+      "val_hesitation_cls_f1": 0.8146,
+      "val_comm_cls_f1": 0.7722
+    },
+    {
+      "step": 22000,
+      "epoch": 3,
+      "val_loss": 0.4585,
+      "val_avg_macro_f1": 0.8218,
+      "val_confidence_cls_f1": 0.8587,
+      "val_stress_cls_f1": 0.849,
+      "val_hesitation_cls_f1": 0.8074,
+      "val_comm_cls_f1": 0.772
+    },
+    {
+      "step": 22287,
+      "epoch": 3,
+      "val_loss": 0.4587,
+      "val_avg_macro_f1": 0.8219,
+      "val_confidence_cls_f1": 0.8593,
+      "val_stress_cls_f1": 0.8496,
+      "val_hesitation_cls_f1": 0.8077,
+      "val_comm_cls_f1": 0.7708
+    }
+  ],
+  "val_metrics": {
+    "confidence_cls": {
+      "accuracy": 0.8519,
+      "macro_f1": 0.8593,
+      "weighted_f1": 0.8515,
+      "confusion_matrix": [
+        [
+          2392,
+          297,
+          22
+        ],
+        [
+          484,
+          2582,
+          150
+        ],
+        [
+          22,
+          125,
+          1354
+        ]
+      ]
+    },
+    "stress_cls": {
+      "accuracy": 0.8503,
+      "macro_f1": 0.8496,
+      "weighted_f1": 0.8504,
+      "confusion_matrix": [
+        [
+          1724,
+          343,
+          15
+        ],
+        [
+          367,
+          3286,
+          162
+        ],
+        [
+          11,
+          214,
+          1306
+        ]
+      ]
+    },
+    "hesitation_cls": {
+      "accuracy": 0.8102,
+      "macro_f1": 0.8077,
+      "weighted_f1": 0.8089,
+      "confusion_matrix": [
+        [
+          2523,
+          278,
+          58
+        ],
+        [
+          405,
+          1840,
+          303
+        ],
+        [
+          100,
+          266,
+          1655
+        ]
+      ]
+    },
+    "comm_cls": {
+      "accuracy": 0.7674,
+      "macro_f1": 0.7708,
+      "weighted_f1": 0.7664,
+      "confusion_matrix": [
+        [
+          1609,
+          326,
+          53,
+          14
+        ],
+        [
+          384,
+          2262,
+          286,
+          60
+        ],
+        [
+          71,
+          327,
+          867,
+          84
+        ],
+        [
+          15,
+          42,
+          66,
+          962
+        ]
+      ]
+    },
+    "avg_macro_f1": 0.8219
+  },
+  "test_metrics": {
+    "confidence_cls": {
+      "accuracy": 0.8564,
+      "macro_f1": 0.8622,
+      "weighted_f1": 0.8565,
+      "confusion_matrix": [
+        [
+          2361,
+          338,
+          22
+        ],
+        [
+          408,
+          2730,
+          109
+        ],
+        [
+          24,
+          166,
+          1270
+        ]
+      ]
+    },
+    "stress_cls": {
+      "accuracy": 0.8511,
+      "macro_f1": 0.8484,
+      "weighted_f1": 0.8508,
+      "confusion_matrix": [
+        [
+          1724,
+          396,
+          13
+        ],
+        [
+          282,
+          3351,
+          115
+        ],
+        [
+          13,
+          287,
+          1247
+        ]
+      ]
+    },
+    "hesitation_cls": {
+      "accuracy": 0.8181,
+      "macro_f1": 0.8168,
+      "weighted_f1": 0.8181,
+      "confusion_matrix": [
+        [
+          2489,
+          317,
+          47
+        ],
+        [
+          344,
+          2023,
+          234
+        ],
+        [
+          89,
+          320,
+          1565
+        ]
+      ]
+    },
+    "comm_cls": {
+      "accuracy": 0.7672,
+      "macro_f1": 0.7685,
+      "weighted_f1": 0.768,
+      "confusion_matrix": [
+        [
+          1600,
+          384,
+          46,
+          11
+        ],
+        [
+          276,
+          2339,
+          322,
+          60
+        ],
+        [
+          54,
+          350,
+          853,
+          49
+        ],
+        [
+          18,
+          58,
+          101,
+          907
+        ]
+      ]
+    },
+    "avg_macro_f1": 0.824
+  }
+}
