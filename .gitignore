@@ -38,14 +38,12 @@ Thumbs.db
 .ipynb_checkpoints/
 *.ipynb
 
-# ML / Model weights (large files)
-*.pt
-*.pth
-*.onnx
-*.bin
-*.safetensors
+# ML / Model weights — inference weights are tracked via Git LFS (.gitattributes).
+# Keep training-only artifacts out of the repo:
 models/weights/
 models/checkpoints/
+models/deberta/final/      # redundant training checkpoint (best/ is used at runtime)
+*.log
 
 # Data (raw/large datasets - keep structure, ignore content)
 data/raw/
@@ -103,11 +101,8 @@ node_modules/
 out/
 npm-debug.log*
 
-# Model artifacts (regenerable; large binaries kept out of git — use LFS if needed)
-*.pkl
-models/**/tokenizer.json
-models/**/*.model
-models/**/*.spm
+# Data-pipeline pickles stay out of git (model .pkl weights are LFS-tracked).
+data/**/*.pkl
 
 # Build / runtime artifacts
 *.tsbuildinfo
